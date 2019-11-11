@@ -12,7 +12,7 @@ services:
       - .env/.female_ghost.env
     ports:
       - target: 8000
-        published: 8005
+        published: 8000
         mode: host
   
   female_ghost-postgres:
