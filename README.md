@@ -18,8 +18,9 @@ This repository is for instant set-up of  the Dockerized promotion project
 `$ chmod u+x starter.sh && ./starter.sh`
 
 # SERVICE ACCESS INFORMATION #
-## zouzou(ci-provider-center API)
-* URL: http://localhost:8000/provider-center/providercenter/
+
+## female_ghost(pr-exercise_ci_cd API)
+* URL: http://localhost:8005/female_ghost_charm/femaleghostcharm/"
 * username: admin
 * password: pass1234
 
