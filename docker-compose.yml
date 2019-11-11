@@ -25,7 +25,7 @@ services:
       - ./.env/.female_ghost.env
   female_ghost:
     restart: always
-    image: female_ghost
+    image: hermandockerhub/female_ghost:latest
     volumes:
       - ./female_ghost:/usr/src/app/
     env_file:
