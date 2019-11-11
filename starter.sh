@@ -50,7 +50,7 @@ docker-compose up -d  || true  #dev
 # Service Access Information Section
 echo "Kindly tests in your local:"
 echo "$provider_center"
-echo "-url: http://localhost:8005/female_ghost_charm/femaleghostcharm/"
+echo "-url: http://localhost:8000/female_ghost_charm/femaleghostcharm/"
 echo "- admin username: admin"
 echo "- admin password: pass1234"
 echo "PLEASE WAIT PATIENTLY FOR THE FRONT-ENDS TO LOAD"
