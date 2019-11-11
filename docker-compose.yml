@@ -1,0 +1,54 @@
+version: '3.3'
+services:
+  nginx:
+    restart: always
+    image: nginx:1.17.3
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./female_ghost/static:/usr/src/app/female_ghost/static
+      - ./female_ghost/upload:/usr/src/app/female_ghost/upload
+    env_file:
+      - .env/.female_ghost.env
+    ports:
+      - target: 8000
+        published: 80005
+        mode: host
+  
+  female_ghost-postgres:
+    restart: always
+    image: postgres:11.5
+    volumes:
+      - ./female_ghost-postgres/data:/var/lib/postgresql/data
+    env_file:
+      - ./.env/.female_ghost-postgres
+      - ./.env/.female_ghost.env
+  female_ghost:
+    restart: always
+    image: female_ghost
+    volumes:
+      - ./female_ghost:/usr/src/app/
+    env_file:
+      - .env/.female_ghost-postgres
+      - .env/.female_ghost.env
+    build:
+      context: ./female_ghost
+      args:
+        - CIRCLE_BRANCH=master
+    networks:
+      - external-games
+      - default
+
+  female_ghost-redis:
+    restart: always
+    image: redis:5.0.5
+    volumes:
+      - female_ghost-redis-data:/data
+
+volumes:
+  female_ghost-redis-data:
+
+networks:
+  external-games:
+    external:
+      name: external-games

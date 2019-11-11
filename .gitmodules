@@ -1,0 +1,8 @@
+[submodule "nginx"]
+	path = nginx
+	url = https://github.com/herman-github/exercise_ci_cd-nginx.git
+	branch = master
+[submodule "female_ghost"]
+	path = female_ghost
+	url = https://github.com/herman-github/female_ghost.git
+	branch = master

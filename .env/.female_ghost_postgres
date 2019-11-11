@@ -1,0 +1,5 @@
+POSTGRES_USER=female_ghost
+POSTGRES_PASSWORD=female_ghost
+POSTGRES_DB=female_ghost
+POSTGRES_PORT=5432
+POSTGRES_SERVICE=female_ghost-postgres
