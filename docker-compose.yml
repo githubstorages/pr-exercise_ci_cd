@@ -2,7 +2,7 @@ version: '3.3'
 services:
   nginx:
     restart: always
-    image: nginx:1.17.3
+    image: nginx:1.17.5
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
@@ -36,7 +36,6 @@ services:
       args:
         - CIRCLE_BRANCH=master
     networks:
-      - external-games
       - default
 
   female_ghost-redis:
@@ -47,8 +46,3 @@ services:
 
 volumes:
   female_ghost-redis-data:
-
-networks:
-  external-games:
-    external:
-      name: external-games
