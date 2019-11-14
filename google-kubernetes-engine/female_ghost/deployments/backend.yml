@@ -61,6 +61,3 @@ spec:
           secret:
             defaultMode: 420
             secretName: female_ghost-storage-bucket-credentials
-
-
-
