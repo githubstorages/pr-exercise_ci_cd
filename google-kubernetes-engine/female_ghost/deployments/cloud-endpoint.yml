@@ -1,0 +1,65 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: female_ghost-cloud-endpoint
+  name: female_ghost-cloud-endpoint
+  namespace: default
+spec:
+  minReadySeconds: 15
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      run: female_ghost-cloud-endpoint
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: female_ghost-cloud-endpoint
+    spec:
+      imagePullSecrets:
+        - name: registry-key
+      containers:
+      - name: female_ghost-cloud-endpoint
+        image: gcr.io/endpoints-release/endpoints-runtime:1
+        args: [
+          "--http_port=8000",
+          "--backend=female_ghost-proxy:8000",
+          "--service=female_ghost.endpoints.female_ghost.cloud.goog",
+          "--rollout_strategy=managed",
+          "--service_account_key=/etc/nginx/creds/gkeCloudEndpointServiceKey.json"
+        ]
+        readinessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /healthcheck/
+            port: 8000
+            scheme: HTTP
+          initialDelaySeconds: 20
+          periodSeconds: 240
+          successThreshold: 1
+          timeoutSeconds: 15
+        ports:
+          - containerPort: 8000
+        resources:
+          limits:
+            cpu: "1"
+            memory: 6G
+          requests:
+            cpu: 300m
+            memory: 50M
+        volumeMounts:
+          - mountPath: /etc/nginx/creds
+            name: female_ghost-endpoint-credentials
+            readOnly: true
+      volumes:
+        - name: female_ghost-endpoint-credentials
+          secret:
+            secretName: female_ghost-endpoint-credentials

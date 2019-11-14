@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress
+  namespace: default
+spec:
+  backend:
+    serviceName: female_ghost-proxy
+    servicePort: 8000
+  rules:
+  - host: {domain}
+  - http:
+      paths:
+      - backend:
+          serviceName: female_ghost-cloud-endpoint
+          servicePort: 8000
+      - path: /admin/*
+        backend:
+          serviceName: female_ghost-proxy
+          servicePort: 8000
+  # tls:
+    # - hosts:
+      # - {domain}
+      # - www.{domain}
+      # secretName: {domain}  # Take note of the “service type” secret name for such cases

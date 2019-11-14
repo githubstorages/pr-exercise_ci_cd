@@ -1,0 +1,59 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: female_ghost-proxy
+  name: female_ghost-proxy
+  namespace: default
+spec:
+  minReadySeconds: 15
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      run: female_ghost-proxy
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: female_ghost-proxy
+    spec:
+      containers:
+      - name: female_ghost-proxy
+        image: nginx:1.15.8
+        readinessProbe:  # defines GCP’s global load balancer healthcheck as well
+          failureThreshold: 5
+          httpGet:
+            path: /healthcheck/
+            port: 8000
+            scheme: HTTP
+          initialDelaySeconds: 20
+          periodSeconds: 240 # 240 is the max you can configure as GCP’s global load balancer healthcheck will add 60 more seconds
+          successThreshold: 1
+          timeoutSeconds: 15
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - name: female_ghost-proxy-conf
+          mountPath: /etc/nginx/conf.d
+        - name: shared-nginx-conf
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+      volumes:
+        - name: female_ghost-proxy-conf
+          configMap:
+            name: female_ghost-proxy-conf
+            defaultMode: 420
+            items:
+            - key: default.conf
+              path: default.conf
+        - name: shared-nginx-conf
+        configMap:
+          name: shared-nginx-conf
+          defaultMode: 420

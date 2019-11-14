@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shared-female_ghost-env-dependencies
+  namespace: default
+data:
+  DOCKERIZED: "True"
+  GKE: "True"
+  GS_BUCKET_NAME: pr-exercise_ci_cd-staging-backend-sb
+  POSTGRES_SERVICE: 127.0.0.1
+  TZ: Asia/Shanghai
+  WHITELIST: ...
