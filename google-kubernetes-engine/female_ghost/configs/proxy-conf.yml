@@ -32,11 +32,9 @@ data:
 
         location /static {
             alias   /usr/src/app/female_ghost/static;
-        }
+            }
 
         location /media {
             alias   /usr/src/app/female_ghost/media;
+            }
         }
-        }
-
-
